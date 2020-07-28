@@ -1,2 +1,2 @@
-# Draw_This_
+# Draw This
 The Draw This project
