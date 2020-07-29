@@ -41,7 +41,7 @@ def select(search_term):
 def select_photos():
     for search_term in search_terms:
         select(search_term)
-    print('pexels stuff done!') 
+    print('Pexels stuff done!') 
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -83,12 +83,11 @@ def get_words():
 
 
 def create_message():
-    message="*test run*Today's words:"  
-    for word in search_terms:
-        message+= word+' '
+    message="*test run*Today's words:"+', '.join(search_terms)
     message+="\nPhotos provided by pexels\n" 
     for photographer in photogpher:
         message+=photographer+'\n'
+    print(message)
     return message
 
 filenames=[]
@@ -96,7 +95,7 @@ filenames=[]
 
 def get_images(sources):
     for index in range(len(sources)):        
-        filename = 'temp'+str(index)+'.jpg'
+        filename = 'photo'+str(index)+'.jpg'
         request = requests.get(sources[index], stream=True)
         if request.status_code == 200:
             with open(filename, 'wb') as image:
@@ -118,7 +117,9 @@ def tweet_message():
          media_ids.append(res.media_id)
 
     api.update_status(status=message, media_ids=media_ids)
+    print("Updated Status!")
     for filename in filenames:   
         os.remove(filename)
+    print("Removed photos from local storage!")    
 
 tweet_message()
