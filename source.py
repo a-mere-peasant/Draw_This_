@@ -23,6 +23,11 @@ selected=[]
 sources=[]
 photogpher=[]
 
+def load_ids():
+    with open('ids.txt','a+') as used:
+        used_ids = used.read().split()
+     return used_ids   
+
 def select(search_term):
     results = py_pexel.search(query = search_term,page=1,per_page=25)
     pid=[]
@@ -32,11 +37,16 @@ def select(search_term):
         pid.append(img.id)
         photographer.append(img.photographer)
         photo_url.append(img.src.get('medium'))
+        used_ids = load_ids()
     x = random.randint(0,25)
-    if x<len(pid):
+    if x<len(pid) and pid[x] not in used_ids:
         selected.append(pid[x])
         sources.append(photo_url[x])
         photogpher.append(photographer[x])
+    else:
+        while(x-1>0 and pid[x-1] in used_ids):
+            x-=1
+        selected.append(pid[x])
 
 def select_photos():
     for search_term in search_terms:
