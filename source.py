@@ -19,9 +19,9 @@ consumer_secret = ''
 py_pexel = PyPexels(api_key = api_key)
 
 search_terms = ['nature','life','water','fire']
-selected=[]
-sources=[]
-photogpher=[]
+selected = []
+sources = []
+photographer = []
 
 def load_ids():
     with open('ids.txt','a+') as used:
@@ -31,22 +31,13 @@ def load_ids():
 def select(search_term):
     results = py_pexel.search(query = search_term,page=1,per_page=25)
     pid=[]
-    photographer=[]
-    photo_url=[]
     for img in results.entries:
         pid.append(img.id)
-        photographer.append(img.photographer)
-        photo_url.append(img.src.get('medium'))
         used_ids = load_ids()
-    x = random.randint(0,25)
-    if x<len(pid) and pid[x] not in used_ids:
-        selected.append(pid[x])
-        sources.append(photo_url[x])
-        photogpher.append(photographer[x])
-    else:
-        while(x-1>0 and pid[x-1] in used_ids):
-            x-=1
-        selected.append(pid[x])
+        x = random.choice(pid)
+        while (x in used_ids):
+            x = random.choice(pid)
+        selected.append(x)    
 
 def select_photos():
     for search_term in search_terms:
@@ -84,12 +75,18 @@ def get_words():
     reply_df = pd.DataFrame(all_reps,columns=cols)
     reply_df.sort_values(by=['favorite_count'],inplace=True,ascending=False)
     k=len(reply_df)
-    if k>=4:    
-        for i in range(0,k):
-            selected.append(reply_df['text'][i])
+    if  4-k > 0:
+         for i in range(0,k):
+            search_terms.append(reply_df['text'][i])
         select_photos()
-    else:
-        print("not enough words,selecting random")
+        for i in range(k,4):
+            random_photos = py_pexel.random(per_page = 4-k)
+            for random_photo in random_photos.entries:
+                selected.append(random_photo.id)
+    else:    
+        for i in range(0,4):
+            search_terms.append(reply_df['text'][i])
+        select_photos()
 
 
 def create_message():
@@ -102,6 +99,12 @@ def create_message():
 
 filenames=[]
 
+
+def get_image_data(selected):
+    for pid in selected:
+        photo = py_pexel.single_photo(photo_id = pid)
+        sources.append(photo.src.get('medium'))
+        photographer.append(photo.photographer)
 
 def get_images(sources):
     for index in range(len(sources)):        
