@@ -1,22 +1,10 @@
-import os
 import tweepy
-from pypexels import PyPexels
+import pexels
 import random
 import pandas as pd
 import regex as re
 import requests
 
-
-#Your pexels API key
-api_key = ''
-
-#Your Twitter keys
-access_token = ''
-access_token_secret = ''
-consumer_key = ''
-consumer_secret = ''
-
-py_pexel = PyPexels(api_key = api_key)
 
 search_terms = ['nature','life','water','fire']
 selected = []
@@ -28,22 +16,6 @@ def load_ids():
         used_ids = used.read().split()
      return used_ids   
 
-def select(search_term):
-    results = py_pexel.search(query = search_term,page=1,per_page=25)
-    pid=[]
-    for img in results.entries:
-        pid.append(img.id)
-        used_ids = load_ids()
-        x = random.choice(pid)
-        while (x in used_ids):
-            x = random.choice(pid)
-        selected.append(x)    
-
-def select_photos():
-    for search_term in search_terms:
-        select(search_term)
-    print('Pexels stuff done!') 
-
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
@@ -51,17 +23,17 @@ api = tweepy.API(auth)
 
 replies_tmp=[]
 replies=[]
-#non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
-for full_tweets in tweepy.Cursor(api.user_timeline,screen_name='Draw_This_',timeout=999999).items(7):
-    for tweet in tweepy.Cursor(api.search,q='to:'+'Draw_This_',result_type='recent',timeout=999999).items(10):
-        if (hasattr(tweet, 'in_reply_to_status_id_str') and tweet.favorite_count>0):
-            if (tweet.in_reply_to_status_id_str==full_tweets.id_str):
-                replies.append(tweet.id)
-#print("Tweet :",full_tweets.text.translate(non_bmp_map))
-            for ids in replies_tmp:
-                print(ids)
-                replies.append(ids)
-            replies_tmp.clear()
+def get_replies()    
+    for full_tweets in tweepy.Cursor(api.user_timeline,screen_name='Draw_This_',timeout=999999).items(1):
+        for tweet in tweepy.Cursor(api.search,q='to:'+'Draw_This_',result_type='recent',timeout=999999).items(100):
+            if (hasattr(tweet, 'in_reply_to_status_id_str') and tweet.favorite_count>0):
+                if (tweet.in_reply_to_status_id_str==full_tweets.id_str):
+                    replies.append(tweet.id)
+                #print("Tweet :",full_tweets.text.translate(non_bmp_map))
+                for ids in replies_tmp:
+                    print(ids)
+                    replies.append(ids)
+                replies_tmp.clear()
 
 def get_words():
     cols=['id','text','favorite_count']
@@ -99,24 +71,6 @@ def create_message():
 
 filenames=[]
 
-
-def get_image_data(selected):
-    for pid in selected:
-        photo = py_pexel.single_photo(photo_id = pid)
-        sources.append(photo.src.get('medium'))
-        photographer.append(photo.photographer)
-
-def get_images(sources):
-    for index in range(len(sources)):        
-        filename = 'photo'+str(index)+'.jpg'
-        request = requests.get(sources[index], stream=True)
-        if request.status_code == 200:
-            with open(filename, 'wb') as image:
-                for chunk in request:
-                    image.write(chunk)
-            filenames.append(filename)        
-        else:
-            print("Unable to download image")
 
 
 def tweet_message():
