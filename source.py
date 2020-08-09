@@ -14,7 +14,7 @@ photographer = []
 def load_ids():
     with open('ids.txt','a+') as used:
         used_ids = used.read().split()
-     return used_ids   
+    return used_ids   
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -23,7 +23,7 @@ api = tweepy.API(auth)
 
 replies_tmp=[]
 replies=[]
-def get_replies()    
+def get_replies():   
     for full_tweets in tweepy.Cursor(api.user_timeline,screen_name='Draw_This_',timeout=999999).items(1):
         for tweet in tweepy.Cursor(api.search,q='to:'+'Draw_This_',result_type='recent',timeout=999999).items(100):
             if (hasattr(tweet, 'in_reply_to_status_id_str') and tweet.favorite_count>0):
@@ -50,8 +50,8 @@ def get_words():
     if  4-k > 0:
          for i in range(0,k):
             search_terms.append(reply_df['text'][i])
-        select_photos()
-        for i in range(k,4):
+         select_photos()
+         for i in range(k,4):
             random_photos = py_pexel.random(per_page = 4-k)
             for random_photo in random_photos.entries:
                 selected.append(random_photo.id)
@@ -60,7 +60,6 @@ def get_words():
             search_terms.append(reply_df['text'][i])
         select_photos()
 
-
 def create_message():
     message="*test run*Today's words:"+', '.join(search_terms)
     message+="\nPhotos provided by pexels\n" 
@@ -68,10 +67,6 @@ def create_message():
         message+=photographer+'\n'
     print(message)
     return message
-
-filenames=[]
-
-
 
 def tweet_message():
     get_words()

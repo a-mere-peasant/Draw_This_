@@ -1,9 +1,9 @@
 import os
-import Pypexels
+import pypexels
 import requests
 from keys import pexels_api_key
 
-py_pexel = PyPexels(api_key = pexels_api_key)
+py_pexel = pypexels.PyPexels(api_key = pexels_api_key)
 
 def select(search_term):
 
@@ -27,8 +27,10 @@ def get_image_data(selected):
         photo = py_pexel.single_photo(photo_id = pid)
         sources.append(photo.src.get('medium'))
         photographer.append(photo.photographer)
+    return photo,sources,photographer
 
 def get_images(sources):
+    filenames=[]
     for index in range(len(sources)):        
         filename = 'photo'+str(index)+'.jpg'
         request = requests.get(sources[index], stream=True)
