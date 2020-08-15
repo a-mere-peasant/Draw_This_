@@ -5,7 +5,7 @@ from keys import pexels_api_key
 
 py_pexel = pypexels.PyPexels(api_key = pexels_api_key)
 
-def select(search_term):
+def select(search_term,selected):
 
     results = py_pexel.search(query = search_term,page=1,per_page=25)
     pid=[]
@@ -16,13 +16,19 @@ def select(search_term):
         while (x in used_ids):
             x = random.choice(pid)
         selected.append(x)    
+    return selected
 
-def select_photos():
+def select_photos(search_terms):
+    selected=[]
     for search_term in search_terms:
-        select(search_term)
+        selected=select(search_term,selected)
     print('Pexels stuff done!') 
+    return selected
 
 def get_image_data(selected):
+    photo = []
+    sources = []
+    photographer = []
     for pid in selected:
         photo = py_pexel.single_photo(photo_id = pid)
         sources.append(photo.src.get('medium'))
@@ -41,5 +47,5 @@ def get_images(sources):
             filenames.append(filename)        
         else:
             print("Unable to download image")
-
+    return filenames
 

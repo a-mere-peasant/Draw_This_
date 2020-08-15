@@ -1,15 +1,12 @@
 import tweepy
-import pexels
 import random
 import pandas as pd
 import regex as re
 import requests
+from keys import consumer_key,consumer_secret,access_token,access_token_secret
+from pexels import *
 
-
-search_terms = ['nature','life','water','fire']
-selected = []
-sources = []
-photographer = []
+search_terms = []
 
 def load_ids():
     with open('ids.txt','a+') as used:
@@ -50,7 +47,7 @@ def get_words():
     if  4-k > 0:
          for i in range(0,k):
             search_terms.append(reply_df['text'][i])
-         select_photos()
+         selected = select_photos(search_terms)
          for i in range(k,4):
             random_photos = py_pexel.random(per_page = 4-k)
             for random_photo in random_photos.entries:
@@ -58,9 +55,10 @@ def get_words():
     else:    
         for i in range(0,4):
             search_terms.append(reply_df['text'][i])
-        select_photos()
+        selected = select_photos(search_terms)
+    return selected
 
-def create_message():
+def create_message(photogpher):
     message="*test run*Today's words:"+', '.join(search_terms)
     message+="\nPhotos provided by pexels\n" 
     for photographer in photogpher:
@@ -69,10 +67,10 @@ def create_message():
     return message
 
 def tweet_message():
-    get_words()
-    select_photos()
-    message = create_message()
-    get_images(sources)
+    selected = get_words()
+    photo,sources,photogpher = get_image_data(selected)
+    message = create_message(photogpher)
+    filenames = get_images(sources)
     media_ids = []
     for filename in filenames:
          res = api.media_upload(filename)
