@@ -49,8 +49,9 @@ def get_words():
             search_terms.append(reply_df['text'][i])
          selected = select_photos(search_terms)
          for i in range(k,4):
-            random_photos = py_pexel.random(per_page = 4-k)
+            random_photos = py_pexel.random(per_page = 1,page=random.randint(1,10))
             for random_photo in random_photos.entries:
+                print(random_photo.id)
                 selected.append(random_photo.id)
     else:    
         for i in range(0,4):
@@ -75,7 +76,7 @@ def tweet_message():
     for filename in filenames:
          res = api.media_upload(filename)
          media_ids.append(res.media_id)
-
+    print("len media ids",len(media_ids))
     api.update_status(status=message, media_ids=media_ids)
     print("Updated Status!")
     for filename in filenames:   
