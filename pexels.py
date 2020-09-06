@@ -2,7 +2,7 @@ import os
 import pypexels
 import requests
 from keys import pexels_api_key
-
+import random
 py_pexel = pypexels.PyPexels(api_key = pexels_api_key)
 
 def select(search_term,selected):
@@ -11,11 +11,16 @@ def select(search_term,selected):
     pid=[]
     for img in results.entries:
         pid.append(img.id)
-        used_ids = load_ids()
+    if len(pid)==0:
+        random_entry=py_pexel.random(per_page = 1,page=random.randint(1,10)).entries
+        for randome_entree in random_entry:
+            x=randome_entree.id
+    else:     
+        #used_ids = load_ids()
         x = random.choice(pid)
-        while (x in used_ids):
-            x = random.choice(pid)
-        selected.append(x)    
+        #while (x in used_ids):
+        #    x = random.choice(pid)
+    selected.append(x)    
     return selected
 
 def select_photos(search_terms):
