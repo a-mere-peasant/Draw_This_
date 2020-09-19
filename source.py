@@ -20,6 +20,7 @@ api = tweepy.API(auth)
 
 replies_tmp=[]
 replies=[]
+#this was more or less copied from stack overflow , workaround for getting replies 
 def get_replies():   
     for full_tweets in tweepy.Cursor(api.user_timeline,screen_name='Draw_This_',timeout=999999).items(1):
         print(full_tweets.id)
@@ -29,7 +30,6 @@ def get_replies():
                         replies.append(tweet.id)
                 #print("Tweet :",full_tweets.text.translate(non_bmp_map))
                 for ids in replies_tmp:
-                    print(ids)
                     replies.append(ids)
                 replies_tmp.clear()
 
@@ -65,7 +65,7 @@ def get_words():
 
 def create_message(photogpher):
     message="*test run*Today's words:"+', '.join(search_terms)
-    message+="\nPhotos provided by pexels\n" 
+    message+="\nPhotos provided by pexels\nThanks to these amazing photographers for taking these shots\n" 
     for photographer in photogpher:
         message+=photographer+'\n'
     print(message)
