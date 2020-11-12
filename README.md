@@ -3,7 +3,7 @@ Welcome to the Draw This project, let's get started!
 
 Please follow our page to get notified when we post on our twitter page here : [Draw_This_](https://twitter.com/Draw_This_) (@Draw_This_) .Have fun drawing and creating!
 
-### What is the Draw This porject ?
+### What is the Draw This project ?
 It's pretty simple, the Draw This project helps find photos for art/creative inspiration with the help of words for choice of the photos suggested by you.
 
 ### How does it work ?
