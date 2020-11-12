@@ -65,10 +65,10 @@ def get_words():
 
 def create_message(photogpher):
     if len(search_terms) > 0:
-        message="*test run*Today's words:"+', '.join(search_terms)
+        message="Today's words:"+', '.join(search_terms)
     else:
-        message="*test run*There we no words for today, so here are some random photos"
-    message+="\nThanks to these amazing photographers for taking these shots and thanks to Pexels for providing these photos\n" 
+        message="There we no words for today, so here are some random photos"
+    message+="\nThanks to these amazing photographers on Pexels for taking these shots and providing them\n" 
     for photographer in photogpher:
         message+=photographer+'\n'
     print(message)
