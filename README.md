@@ -32,5 +32,6 @@ If there are no images in the result corresponding to a word, then the word will
 
 ### How do I setup something like this?
 I am using the twitter and pexels api with the pypexels wrapper. You need to get your own keys and make a keys.py to store them.I'll try to put all development related info in the wiki, but that will take some time.
+Edit: Work on wiki has started , there some stuff you can check out!
 
 Please create an issue for any other questions, Pull requests are welcome.
