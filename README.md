@@ -19,7 +19,7 @@ All suggestions consist of a single word only, and they should be in reply to th
 No, we only support one worded suggestions at the time.
 
 ### When will the next post/tweet come out?
-This remains a mystery, the amount of tweets/posts and their timings will be random,this makes it more fun. Please follow the page to get notified whenver they come out.
+This remains a mystery, the amount of tweets/posts and their timings will be random,this makes it more fun. Please follow the page to get notified whenever they come out.
 
 ### What if there are no words?
 If there are no words, then random photos are chosen.
