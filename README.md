@@ -1,6 +1,8 @@
 # Draw This
 Welcome to the Draw This project, let's get started!
 
+This project has a small wiki! Check it out [here](https://github.com/a-mere-peasant/Draw_This_/wiki) 
+
 Please follow our page to get notified when we post on our twitter page here : [Draw_This_](https://twitter.com/Draw_This_) (@Draw_This_) .Have fun drawing and creating!
 
 ### What is the Draw This project ?
